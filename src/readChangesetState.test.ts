@@ -20,7 +20,7 @@ const writeChangesets = (changesets: Changeset[], cwd: string) => {
 };
 
 beforeEach(() => {
-  // Nothing to clear for now
+  // Nothing to clear for now...
 });
 
 describe("readChangesetState", () => {
