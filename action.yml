@@ -39,6 +39,10 @@ inputs:
   branch:
     description: Sets the branch in which the action will run. Default to `github.ref_name` if not provided
     required: false
+  resetBranch:
+    description: Whether to reset the branch to the base commit when creating a new release branch. Default to `true`
+    required: false
+    default: true
 outputs:
   published:
     description: A boolean value to indicate whether a publishing is happened or not
