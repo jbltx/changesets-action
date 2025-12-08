@@ -6,6 +6,7 @@ import type { Octokit } from "./octokit.ts";
 
 type GitOptions = {
   cwd: string;
+  resetBranch?: boolean;
 };
 
 const push = async (branch: string, options: GitOptions) => {
@@ -49,10 +50,12 @@ const checkIfClean = async (options: GitOptions): Promise<boolean> => {
 export class Git {
   readonly octokit: Octokit | null;
   readonly cwd: string;
+  readonly resetBranch: boolean;
 
-  constructor(args: { octokit?: Octokit; cwd: string }) {
+  constructor(args: { octokit?: Octokit; cwd: string; resetBranch?: boolean }) {
     this.octokit = args.octokit ?? null;
     this.cwd = args.cwd;
+    this.resetBranch = args.resetBranch ?? true;
   }
 
   async setupUser() {
@@ -97,7 +100,9 @@ export class Git {
       return;
     }
     await switchToMaybeExistingBranch(branch, { cwd: this.cwd });
-    await reset(github.context.sha, { cwd: this.cwd });
+    if (this.resetBranch) {
+      await reset(github.context.sha, { cwd: this.cwd });
+    }
   }
 
   async pushChanges({ branch, message }: { branch: string; message: string }) {
